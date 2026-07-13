@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProxyDigital - Système de Gestion Intégré</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Variables de couleurs professionnelles (Corporate / Slate Tech) */
+        :root {
+            --primary-color: #1e3a8a; /* Bleu nuit corporate */
+            --accent-color: #2563eb;  /* Bleu tech actif */
+            --text-dark: #1f2937;     /* Anthracite pour une meilleure lisibilité */
+            --text-muted: #4b5563;    /* Gris neutre pour les sous-titres */
+            --bg-light: #f9fafb;      /* Fond très clair */
+            --border-color: #e5e7eb;  /* Frontières discrètes */
+            
+            --success: #059669;       /* Vert émeraude pro */
+            --warning: #d97706;       /* Ambre corporatif */
+            --danger: #dc2626;        /* Rouge signalisation propre */
+        }
+
+        /* Modale de suppression */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6); /* Fond assombri moderne */
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay:target {
+            display: flex;
+        }
+        .modal-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.2s ease-out;
+        }
+        .modal-icon {
+            font-size: 40px;
+            color: var(--danger);
+            margin-bottom: 15px;
+        }
+        .modal-title {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .modal-text {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .product-preview {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--danger);
+            margin-bottom: 25px;
+            text-align: left;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Ajustements de style pour la cohérence de l'application */
+        .app-container {
+            display: none;
+        }
+        .app-container:target, .app-container.active {
+            display: flex !important;
+        }
+        .sidebar-brand, h1, h2 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        .menu-item i, .kpi-icon i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page-login" class="app-container login-screen active">
+        <div class="login-card">
+            <div class="logo-area" style="text-align: center; margin-bottom: 2rem;">
+                <div class="logo-icon" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 0.5rem;">
+                    <i class="fa-solid fa-chart-network"></i>
+                </div>
+                <h1 style="color: var(--primary-color); font-size: 2rem; margin: 0;">ProxyDigital</h1>
+                <p class="subtitle" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">La Digitalisation de Proximité</p>
+            </div>
+            
+            <form class="login-form" onsubmit="event.preventDefault(); window.location.href='#page-dashboard';">
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                    <input type="text" placeholder="Nom d'utilisateur" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa-solid fa-unlock"></i></span>
+                    <input type="password" placeholder="Mot de passe" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" style="background-color: var(--accent-color); color: white; width: 100%;">Se connecter</button>
+            </form>
+            
+            <p class="copyright" style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-top: 2rem;">© 2026 ProxyDigital - Gestion Intégrée</p>
+        </div>
+    </div>
+====================SIDEBAR==================
+    <div id="page-dashboard" class="app-container main-layout">
+        <aside class="sidebar" style="background-color: black; color: white;">
+            <div class="sidebar-brand" style="font-size: 1.25rem; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">ProxyDigital</div>
+            <nav class="sidebar-menu" style="padding: 15px 0;">
+                <a href="#page-dashboard" class="menu-item active"><i class="fa-solid fa-chart-pie"></i> Tableau de Bord</a>
+                <a href="#page-sales" class="menu-item"><i class="fa-solid fa-cart-shopping"></i> Effectuer une Vente</a>
+                <a href="#page-add-product" class="menu-item"><i class="fa-solid fa-plus"></i> Ajouter un Produit</a>
+                <a href="#page-edit-product" class="menu-item"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
+                <a href="#" class="menu-item"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+            </nav>
+            <a href="#page-login" class="logout-btn" style="color: #fda4af;"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        </aside>
+
+        <main class="main-content" style="background-color: var(--bg-light); padding: 30px;">
+            <header class="content-header" style="margin-bottom: 30px;">
+                <h2 style="color: var(--text-dark); font-size: 1.5rem; text-transform: uppercase;">État du stock en temps réel</h2>
+                <div class="header-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <input type="text" id="search-stock" class="search-bar" placeholder="Rechercher un produit...">
+                    <a href="#page-add-product" class="btn btn-primary" style="background-color: var(--accent-color); color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px;"><i class="fa-solid fa-plus"></i> Nouveau produit</a>
+                    <a href="#page-edit-product" class="btn btn-warning" style="background-color: var(--warning); color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px;"><i class="fa-solid fa-pen"></i> Modifier</a>
+                    <a href="#delete-modal" class="btn btn-danger" style="background-color: var(--danger); color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px;"><i class="fa-solid fa-trash"></i> Supprimer</a>
+                </div>
+            </header>
+
+            <section class="kpi-grid">
+                <div class="kpi-card card-blue" style="border-left: 4px solid var(--accent-color);">
+                    <div class="kpi-icon" style="color: var(--accent-color);"><i class="fa-solid fa-box"></i></div>
+                    <div class="kpi-info"><h3>6</h3><p>Total Produits</p></div>
+                </div>
+                <div class="kpi-card card-green" style="border-left: 4px solid var(--success);">
+                    <div class="kpi-icon" style="color: var(--success);"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <div class="kpi-info"><h3>67</h3><p>Stock Total</p></div>
+                </div>
+                <div class="kpi-card card-warning" style="border-left: 4px solid var(--warning);">
+                    <div class="kpi-icon" style="color: var(--warning);"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="kpi-info"><h3>2</h3><p>Produits en Alerte</p></div>
+                </div>
+                <div class="kpi-card card-danger" style="border-left: 4px solid var(--danger);">
+                    <div class="kpi-icon" style="color: var(--danger);"><i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="kpi-info"><h3>1</h3><p>Stock Critique</p></div>
+                </div>
+            </section>
+
+            <section class="table-container" style="margin-top: 30px; background: white; border-radius: 6px; border: 1px solid var(--border-color);">
+                <table class="data-table" id="stock-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+                            <th style="padding: 12px;">ID</th>
+                            <th style="padding: 12px;">Désignation du Produit</th>
+                            <th style="padding: 12px;">P.U Achat ($)</th>
+                            <th style="padding: 12px;">P.U Vente ($)</th>
+                            <th style="padding: 12px;">Qté en Stock</th>
+                            <th style="padding: 12px;">Seuil Alerte</th>
+                            <th style="padding: 12px;">Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">1</td><td style="padding: 12px;">Clavier Gamer</td><td style="padding: 12px;">10.00</td><td style="padding: 12px;">15.00</td><td style="padding: 12px;">20</td><td style="padding: 12px;">5</td><td style="padding: 12px;"><span class="badge" style="color: var(--success);">● Normal</span></td></tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">2</td><td style="padding: 12px;">Souris Logitech</td><td style="padding: 12px;">8.00</td><td style="padding: 12px;">12.00</td><td style="padding: 12px;">30</td><td style="padding: 12px;">5</td><td style="padding: 12px;"><span class="badge" style="color: var(--success);">● Normal</span></td></tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">3</td><td style="padding: 12px;">Écran HP 22 pouces</td><td style="padding: 12px;">120.00</td><td style="padding: 12px;">150.00</td><td style="padding: 12px;">10</td><td style="padding: 12px;">2</td><td style="padding: 12px;"><span class="badge" style="color: var(--success);">● Normal</span></td></tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">4</td><td style="padding: 12px;">Imprimante Canon</td><td style="padding: 12px;">80.00</td><td style="padding: 12px;">100.00</td><td style="padding: 12px;">4</td><td style="padding: 12px;">5</td><td style="padding: 12px;"><span class="badge" style="color: var(--warning);">● Alerte</span></td></tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">5</td><td style="padding: 12px;">Casque Bluetooth</td><td style="padding: 12px;">15.00</td><td style="padding: 12px;">25.00</td><td style="padding: 12px;">2</td><td style="padding: 12px;">3</td><td style="padding: 12px;"><span class="badge" style="color: var(--warning);">● Alerte</span></td></tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);"><td style="padding: 12px;">6</td><td style="padding: 12px;">Clé USB 32GB</td><td style="padding: 12px;">5.00</td><td style="padding: 12px;">8.00</td><td style="padding: 12px;">1</td><td style="padding: 12px;">5</td><td style="padding: 12px;"><span class="badge" style="color: var(--danger);">● Critique</span></td></tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    
+    <div id="page-add-product" class="app-container main-layout">
+        <aside class="sidebar" style="background-color: var(--primary-color); color: white;">
+            <div class="sidebar-brand" style="font-size: 1.25rem; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">ProxyDigital</div>
+            <nav class="sidebar-menu" style="padding: 15px 0;">
+                <a href="#page-dashboard" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Tableau de Bord</a>
+                <a href="#page-sales" class="menu-item"><i class="fa-solid fa-cart-shopping"></i> Effectuer une Vente</a>
+                <a href="#page-add-product" class="menu-item active"><i class="fa-solid fa-plus"></i> Ajouter un Produit</a>
+                <a href="#" class="menu-item"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+            </nav>
+            <a href="#page-login" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        </aside>
+
+        <main class="main-content" style="background-color: var(--bg-light); padding: 30px;">
+            <div class="form-container-box" style="display: flex; width: 100%; max-width: 900px; gap: 60px; align-items: center;">
+                <div class="form-left" style="flex: 1.2;">
+                    <h2 style="color: var(--text-dark); font-size: 1.3rem; margin-bottom: 20px;">AJOUTER UN NOUVEAU PRODUIT</h2>
+                    <form class="crud-form">
+                        <div class="form-group">
+                            <label>Désignation du Produit</label>
+                            <input type="text" placeholder="Ex: Clavier Gamer" required style="border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; width: 100%;">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Prix d'Achat ($)</label>
+                            <input type="number" step="0.01" placeholder="0.00" required style="border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; width: 100%;">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Prix de Vente ($)</label>
+                            <input type="number" step="0.01" placeholder="0.00" required style="border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; width: 100%;">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Quantité en Stock</label>
+                            <input type="number" placeholder="0" required style="border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; width: 100%;">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Seuil d'Alerte</label>
+                            <input type="number" placeholder="0" required style="border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; width: 100%;">
+                        </div>
+                        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button type="submit" class="btn btn-success" style="background-color: var(--success); color: white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: 500;"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
+                            <a href="#page-dashboard" class="btn btn-secondary" style="background-color: #9ca3af; color: white; text-decoration: none; padding: 10px 20px; border-radius: 4px;">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="page-edit-product" class="app-container main-layout">
+        <aside class="sidebar" style="background-color: var(--primary-color); color: white;">
+            <div class="sidebar-brand" style="font-size: 1.25rem; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">ProxyDigital</div>
+            <nav class="sidebar-menu" style="padding: 15px 0;">
+                <a href="#page-dashboard" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Tableau de Bord</a>
+                <a href="#page-sales" class="menu-item"><i class="fa-solid fa-cart-shopping"></i> Effectuer une Vente</a>
+                <a href="#page-add-product" class="menu-item"><i class="fa-solid fa-plus"></i> Ajouter un Produit</a>
+                <a href="#" class="menu-item"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+            </nav>
+            <a href="#page-login" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        </aside>
+
+        <main class="main-content" style="background-color: var(--bg-light); padding: 30px;">
+            <div class="form-container-box" style="display: flex; width: 100%; max-width: 900px; gap: 60px; align-items: center;">
+                <div class="form-left" style="flex: 1.2;">
+                    <h2 style="color: var(--text-dark); font-size: 1.3rem; margin-bottom: 20px;">MODIFIER LE PRODUIT</h2>
+                    <form class="crud-form">
+                        <div class="form-group">
+                            <label>ID Produit</label>
+                            <input type="text" value="1" disabled style="background-color: #e5e7eb; cursor: not-allowed; padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Désignation du Produit</label>
+                            <input type="text" value="Clavier Gamer" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Prix d'Achat ($)</label>
+                            <input type="number" step="0.01" value="10.00" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Prix de Vente ($)</label>
+                            <input type="number" step="0.01" value="15.00" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Quantité en Stock</label>
+                            <input type="number" value="20" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Seuil d'Alerte</label>
+                            <input type="number" value="5" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button type="submit" class="btn btn-warning" style="background-color: var(--warning); color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: 500;"><i class="fa-solid fa-arrows-rotate"></i> Mettre à jour</button>
+                            <a href="#page-dashboard" class="btn btn-secondary" style="background-color: #9ca3af; color: white; text-decoration: none; padding: 10px 20px; border-radius: 4px;">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="page-sales" class="app-container main-layout">
+        <aside class="sidebar" style="background-color: var(--primary-color); color: white;">
+            <div class="sidebar-brand" style="font-size: 1.25rem; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">ProxyDigital</div>
+            <nav class="sidebar-menu" style="padding: 15px 0;">
+                <a href="#page-dashboard" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Tableau de Bord</a>
+                <a href="#page-sales" class="menu-item active"><i class="fa-solid fa-cart-shopping"></i> Effectuer une Vente</a>
+                <a href="#page-add-product" class="menu-item"><i class="fa-solid fa-plus"></i> Ajouter un Produit</a>
+                <a href="#" class="menu-item"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+            </nav>
+            <a href="#page-login" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+        </aside>
+
+        <main class="main-content" style="background-color: var(--bg-light); padding: 30px;">
+            <div class="form-container-box" style="display: flex; width: 100%; max-width: 900px; gap: 60px; align-items: center;">
+                <div class="form-left" style="flex: 1.2;">
+                    <h2 style="color: var(--text-dark); font-size: 1.3rem; margin-bottom: 20px;">EFFECTUER UNE NOUVELLE VENTE</h2>
+                    <form class="crud-form" id="sales-form">
+                        <div class="form-group">
+                            <label>Sélectionner le Produit</label>
+                            <input type="text" placeholder="Ex: Souris Logitech ou Clavier Gamer" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Prix de Vente Unitaire ($)</label>
+                            <input type="number" id="sale-price" step="0.01" placeholder="0.00" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Quantité à Vendre</label>
+                            <input type="number" id="sale-qty" value="1" min="1" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Montant Total ($)</label>
+                            <input type="number" id="sale-total" step="0.01" placeholder="0.00" readonly style="background-color: #f3f4f6; cursor: not-allowed; padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Montant Reçu du Client ($)</label>
+                            <input type="number" step="0.01" placeholder="0.00" required style="padding: 8px; border-radius: 4px; width: 100%; border: 1px solid var(--border-color);">
+                        </div>
+                        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary" style="background-color: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: 500;"><i class="fa-solid fa-cart-check"></i> Valider la Vente</button>
+                            <button type="button" class="btn btn-secondary" style="background-color: #9ca3af; color: white; border: none; padding: 10px 20px; border-radius: 4px;" onclick="window.location.href='#page-dashboard'">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="delete-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 class="modal-title">Confirmer la suppression ?</h3>
+            <p class="modal-text">Attention, cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce produit du système informatique ?</p>
+            
+            <div class="product-preview">
+                <strong>Produit sélectionné :</strong><br>
+                • ID : #1 <br>
+                • Nom : Clavier Gamer <br>
+                • En Stock : 20 unités
+            </div>
+
+            <form action="#page-dashboard" method="GET" style="display: flex; gap: 15px; justify-content: center;">
+                <button type="button" class="btn btn-danger" style="background-color: var(--danger); color: white; padding: 10px 25px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="alert('Produit supprimé du registre.'); window.location.href='#page-dashboard';">
+                    Confirmer la suppression
+                </button>
+                <a href="#page-dashboard" class="btn btn-secondary" style="text-decoration: none; padding: 10px 25px; border-radius: 4px; background-color: #6b7280; color: white; font-weight: bold;">
+                    Annuler
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. CALCUL DU TOTAL SUR LA PAGE DE VENTE
+            const salePriceInput = document.getElementById('sale-price');
+            const saleQtyInput = document.getElementById('sale-qty');
+            const saleTotalInput = document.getElementById('sale-total');
+
+            function calculateTotal() {
+                const price = parseFloat(salePriceInput.value) || 0;
+                const qty = parseInt(saleQtyInput.value) || 0;
+                saleTotalInput.value = (price * qty).toFixed(2);
+            }
+
+            salePriceInput.addEventListener('input', calculateTotal);
+            saleQtyInput.addEventListener('input', calculateTotal);
+
+            document.getElementById('sales-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert(`Transaction enregistrée avec succès. Total : ${saleTotalInput.value} $`);
+                window.location.href = '#page-dashboard';
+            });
+
+            // 2. FILTRE DE RECHERCHE EN TEMPS RÉEL (TABLEAU DE BORD)
+            const searchInput = document.getElementById('search-stock');
+            const tableRows = document.querySelectorAll('#stock-table tbody tr');
+
+            searchInput.addEventListener('input', () => {
+                const searchValue = searchInput.value.toLowerCase().trim();
+
+                tableRows.forEach(row => {
+                    const productName = row.cells[1].textContent.toLowerCase();
+                    if (productName.includes(searchValue)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // 3. NAVIGATION HASH-FIX
+            window.addEventListener('hashchange', () => {
+                if(window.location.hash && window.location.hash !== '#page-login') {
+                    document.getElementById('page-login').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
