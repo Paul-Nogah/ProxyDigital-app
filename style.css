@@ -1,0 +1,357 @@
+
+
+/* ### 🎨 2. Le fichier CSS Unique (`style.css`) */
+
+
+/* =========================================================================
+   1. BASES ET CONFIGURATION GLOBALE
+   ========================================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+    height: 100%;
+    background-color: #f4f6f9;
+    color: #333;
+    scroll-behavior: smooth;
+}
+
+/* Mécanisme d'affichage des pages via les ancres HTML (#) */
+.app-container {
+    display: none; /* Cache toutes les pages par défaut */
+    height: 100vh;
+}
+
+/* La première page affichée ou la page ciblée par l'URL devient visible */
+#page-login { display: flex; } /* Par défaut au chargement */
+.app-container:target { display: flex !important; }
+.app-container:target ~ #page-login { display: none; }
+
+/* =========================================================================
+   2. COMPOSANTS RÉUTILISABLES (BOUTONS, BADGES, INPUTS)
+   ========================================================================= */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+}
+.btn-primary { background-color: #007bff; color: white; }
+.btn-success { background-color: #28a745; color: white; }
+.btn-warning { background-color: #ffc107; color: #212529; }
+.btn-danger { background-color: #dc3545; color: white; }
+.btn-secondary { background-color: #6c757d; color: white; }
+.btn-block { display: block; width: 100%; text-align: center; }
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.badge-success { background-color: #d4edda; color: #155724; }
+.badge-warning { background-color: #fff3cd; color: #856404; }
+.badge-danger { background-color: #f8d7da; color: #721c24; }
+
+/* =========================================================================
+   3. DISPOSITION EN STRIPES (SIDEBAR + MAIN CONTENT)
+   ========================================================================= */
+.main-layout {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar-brand {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #38bdf8;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.menu-item {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.menu-item:hover, .menu-item.active {
+    background-color: #0284c7;
+    color: white;
+}
+
+.logout-btn {
+    color: #ef4444;
+    text-decoration: none;
+    padding-top: 15px;
+    border-top: 1px solid #334155;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* =========================================================================
+   4. STYLE ÉCRAN 1 : PAGE DE CONNEXION
+   ========================================================================= */
+.login-screen {
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 100%);
+    width: 100%;
+    background-image: url('bg_business.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.login-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 40px;
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.02);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+
+}
+
+.logo-icon { font-size: 40px; margin-bottom: 10px; }
+.subtitle { color: #64748b; font-size: 14px; margin-bottom: 30px; }
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.input-group input {
+    border: none;
+    background: transparent;
+    margin-left: 10px;
+    width: 100%;
+    outline: none;
+}
+
+.copyright { font-size: 11px; color: #94a3b8; margin-top: 30px; }
+
+/* =========================================================================
+   5. STYLE ÉCRAN 2 : TABLEAU DE BORD & TABLEAUX
+   ========================================================================= */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.search-bar {
+    padding: 8px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.kpi-info h3 { font-size: 24px; }
+.kpi-info p { color: #64748b; font-size: 13px; }
+
+/* Couleurs des bordures gauches des KPI pour matcher la maquette */
+.card-blue { border-left: 5px solid #007bff; }
+.card-green { border-left: 5px solid #28a745; }
+.card-warning { border-left: 5px solid #ffc107; }
+.card-danger { border-left: 5px solid #dc3545; }
+
+/* Styles spécifiques aux boîtes de l'écran statistique */
+.card-light-green { background-color: #e2f0d9; text-align: center; justify-content: center; flex-direction: column; }
+.card-light-blue { background-color: #ddebf7; text-align: center; justify-content: center; flex-direction: column; }
+.card-light-purple { background-color: #e1d5e7; text-align: center; justify-content: center; flex-direction: column; }
+.card-light-orange { background-color: #fff2cc; text-align: center; justify-content: center; flex-direction: column; }
+
+/* Tableaux de données */
+.table-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th, .data-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table th { background-color: #f8fafc; font-weight: 600; color: #475569; }
+
+/* =========================================================================
+   6. STYLE ÉCRAN 3 : FORMULAIRE CRUD (AJOUT PRODUIT)
+   ========================================================================= */
+.form-container-box {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 900px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+}
+
+.form-left { padding: 40px; flex: 1; }
+.form-right-decor { 
+    background-color: #eff6ff; 
+    width: 300px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.box-icon { font-size: 80px; }
+
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.form-actions { display: flex; gap: 10px; margin-top: 25px; }
+
+/* =========================================================================
+   7. STYLE ÉCRAN 4 : CAISSE / VENTE
+   ========================================================================= */
+.sale-interface {
+    display: flex;
+    gap: 30px;
+}
+
+.sale-products { flex: 2; background: white; padding: 20px; border-radius: 8px; }
+.sale-checkout { 
+    flex: 1; 
+    background: #f8fafc; 
+    padding: 20px; 
+    border-radius: 8px; 
+    border: 1px solid #e2e8f0; 
+}
+
+.checkout-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    font-weight: 500;
+}
+.checkout-total {
+    text-align: center;
+    font-size: 28px;
+    color: #007bff;
+    margin: 20px 0;
+    padding: 15px;
+    background: #e0f2fe;
+    border-radius: 8px;
+}
+.small-input { width: 60px; padding: 5px; text-align: center; }
+
+/* =========================================================================
+   8. STYLE ÉCRAN 5 : GRAPHIQUES SIMULÉS
+   ========================================================================= */
+.charts-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.chart-box { background: white; padding: 20px; border-radius: 8px; height: 300px; }
+
+/* Simulation visuelle de la courbe de ventes en pur CSS */
+.mock-chart-line {
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+    background: linear-gradient(180deg, rgba(56,189,248,0.1) 0%, rgba(255,255,255,0) 100%);
+    position: relative;
+    border-bottom: 2px solid #cbd5e1;
+}
+.line-path {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-top: 3px solid #0284c7;
+    clip-path: polygon(0% 80%, 20% 40%, 40% 60%, 60% 20%, 80% 50%, 100% 10%);
+}
+
+/* Simulation visuelle du camembert en pur CSS */
+.mock-chart-pie {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(#007bff 0% 40%, #28a745 40% 70%, #ffc107 70% 90%, #dc3545 90% 100%);
+    margin: 30px auto;
+}
