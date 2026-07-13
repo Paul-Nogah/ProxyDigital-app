@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- =====================PAGE DE VENTE=============================== -->
+
+<div id="page-sales" class="app-container main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">ProxyDigital</div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item active"><span class="input-icon"><i class="fa-solid fa-chart-pie"></i></span>  Tableau de Bord</a>
+                <a href="vente.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-cart-shopping"></i></span>  Effectuer une Vente</a>
+
+                <a href="ajouter.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-plus"></i></span>  Ajouter un Produit</a>
+                <a href="modifier.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-pen-to-square"></i></span> Modifier</a>
+                <a href="login.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-user"></i></span>  Utilisateurs</a>
+            </nav>
+            <a href="login.html" class="logout-btn"><span class="input-icon"><i class="fa-solid fa-user"></i></span>  Déconnexion</a>
+        </aside>
+
+        <main class="main-content">
+            <div class="form-container-box" style="display: flex; width: 100%; max-width: 900px; gap: 60px; align-items: center;">
+                
+                <div class="form-left" style="flex: 1.2;">
+
+                    <h2>EFFECTUER UNE NOUVELLE VENTE</h2>
+
+                    <form class="crud-form">
+                        <div class="form-group">
+                            <label>Sélectionner le Produit</label>
+                            <input type="text" placeholder="Ex: Souris Logitech ou Clavier Gamer">
+                        </div>
+                        <div class="form-group">
+                            <label>Prix de Vente Unitaire ($)</label>
+                            <input type="number" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantité à Vendre</label>
+                            <input type="number" placeholder="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Montant Total ($)</label>
+                            <input type="number" step="0.01" placeholder="0.00" readonly style="background-color: #f3f4f6; cursor: not-allowed;">
+                        </div>
+                        <div class="form-group">
+                            <label>Montant Reçu du Client ($)</label>
+                            <input type="number" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: white;">🛒 Valider la Vente</button>
+                            <button type="button" class="btn btn-secondary">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-right-image" style="flex: 0.8; display: flex; justify-content: center;">
+                    <svg viewBox="0 0 200 200" width="180" height="180">
+                        <circle cx="100" cy="100" r="80" fill="#eff6ff" />
+                        <path d="M40 40 h20 l15 60 h70 l15 -45 h -90" fill="none" stroke="#007bff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="80" cy="125" r="10" fill="#007bff" />
+                        <circle cx="135" cy="125" r="10" fill="#007bff" />
+                        <circle cx="140" cy="70" r="22" fill="#00a854" />
+                        <line x1="132" y1="70" x2="148" y2="70" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="140" y1="62" x2="140" y2="78" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>

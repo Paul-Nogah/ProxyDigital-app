@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ==============LE SIDEBAR==================== -->
+
+    <div id="page-dashboard" class="app-container main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">ProxyDigital</div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item active"><span class="input-icon"><i class="fa-solid fa-chart-pie"></i></span>  Tableau de Bord</a>
+                <a href="vente.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-cart-shopping"></i></span>  Effectuer une Vente</a>
+                <a href="ajouter.html" class="menu-item"></i><span class="input-icon"><i class="fa-solid fa-plus"></i></span>  Ajouter un Produit</a>
+                <a href="modifier.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-pen-to-square"></i>  Modifier</a>
+                <a href="login.html" class="menu-item"><span class="input-icon"><i class="fa-solid fa-user"></i></span>  Utilisateurs</a>
+            </nav>
+            <a href="#page-login" class="logout-btn"><span class="input-icon"><i class="fa-solid fa-right-from-bracket"></i>  Déconnexion</a>
+        </aside>
+
+        <!-- ===============LE TABLEAU DE BORD=============== -->
+
+        <main class="main-content">
+            <header class="content-header">
+                <h2 style="font-family: Verdana, Geneva, Tahoma, sans-serif;">ÉTAT DU STOCK EN TEMPS RÉEL</h2>
+                <div class="header-actions">
+                    <input type="text" class="search-bar" placeholder="Rechercher un produit...">
+                    <a href="ajouter.html" class="btn btn-primary">+ Ajouter Produit</a>
+                    
+                    <a href="modifier.html" class="btn btn-warning" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center;">Modifier</a>
+                    
+                    <a href="supprimer.html" class="btn btn-danger" style="text-decoration: none; text-align: center; display: inline-flex; align-items: center;">Supprimer</a>
+                </div>
+            </header>
+
+            <section class="kpi-grid">
+                <div class="kpi-card card-blue">
+                    <div class="kpi-icon">📦</div>
+                    <div class="kpi-info"><h3>6</h3><p>Total Produits</p></div>
+                </div>
+                <div class="kpi-card card-green">
+                    <div class="kpi-icon">🔢</div>
+                    <div class="kpi-info"><h3>67</h3><p>Stock Total</p></div>
+                </div>
+                <div class="kpi-card card-warning">
+                    <div class="kpi-icon">⚠️</div>
+                    <div class="kpi-info"><h3>2</h3><p>Produits en Alerte</p></div>
+                </div>
+                <div class="kpi-card card-danger">
+                    <div class="kpi-icon">🚨</div>
+                    <div class="kpi-info"><h3>1</h3><p>Stock Critique</p></div>
+                </div>
+            </section>
+
+            <section class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Désignation du Produit</th>
+                            <th>P.U Achat ($)</th>
+                            <th>P.U Vente ($)</th>
+                            <th>Qté en Stock</th>
+                            <th>Seuil Alerte</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Clavier Gamer</td><td>10.00</td><td>15.00</td><td>20</td><td>5</td><td><span class="badge badge-success">Normal</span></td></tr>
+                        <tr><td>2</td><td>Souris Logitech</td><td>8.00</td><td>12.00</td><td>30</td><td>5</td><td><span class="badge badge-success">Normal</span></td></tr>
+                        <tr><td>3</td><td>Écran HP 22 pouces</td><td>120.00</td><td>150.00</td><td>10</td><td>2</td><td><span class="badge badge-success">Normal</span></td></tr>
+                        <tr><td>4</td><td>Imprimante Canon</td><td>80.00</td><td>100.00</td><td>4</td><td>5</td><td><span class="badge badge-warning">Alerte</span></td></tr>
+                        <tr><td>5</td><td>Casque Bluetooth</td><td>15.00</td><td>25.00</td><td>2</td><td>3</td><td><span class="badge badge-warning">Alerte</span></td></tr>
+                        <tr><td>6</td><td>Clé USB 32GB</td><td>5.00</td><td>8.00</td><td>1</td><td>5</td><td><span class="badge badge-danger">Critique</span></td></tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    
+</body>
+</html>
